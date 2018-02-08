@@ -111,40 +111,34 @@ rides = [
 ########################################################
 # Step 4: Total Drivers Earnings and Number of Rides
 
-  # Use an iteration block to print driver's total rides and money made
-
-  driver_01_tot_rides = 0
-  driver_01_earnings = 0
-
-  driver_02_tot_rides = 0
-  driver_02_earnings = 0
-
-  driver_03_tot_rides = 0
-  driver_03_earnings = 0
-
-  driver_04_tot_rides = 0
-  driver_04_earnings = 0
+# Use an iteration block to print driver's total rides and money made
 
 
-  rides.each do |ride|
-    case ride[:driver_id]
-    when "DR0001"
-      driver_01_tot_rides += 1
-      driver_01_earnings += ride[:cost]
-    when "DR0002"
-      driver_02_tot_rides += 1
-      driver_02_earnings += ride[:cost]
-    when "DR0003"
-      driver_03_tot_rides += 1
-      driver_03_earnings += ride[:cost]
-    when "DR0004"
-      driver_04_tot_rides += 1
-      driver_04_earnings += ride[:cost]
-    end
+# array of drivers
+# each driver hash of total rides and total earnings
+
+drivers = {}
+# drivers = driver1 => {tot_rides => 0, tot_earning => 0}, driver2 => {}
+
+rides.each do |ride|
+
+  # does the driver found in the rides already exist
+  if !drivers.keys.include? ride[:driver_id]
+    drivers.merge!(ride[:driver_id] => { :tot_rides => 0, :tot_earning => 0 })
   end
 
-  puts "The total number of rides given by each driver:"
-  puts "DR0001 gave #{driver_01_tot_rides.to_i} making $#{driver_01_earnings}"
-  puts "DR0002 gave #{driver_02_tot_rides.to_i} making $#{driver_02_earnings}"
-  puts "DR0003 gave #{driver_03_tot_rides.to_i} making $#{driver_03_earnings}"
-  puts "DR0004 gave #{driver_04_tot_rides.to_i} making $#{driver_04_earnings}"
+  drivers.each do |driver, totals|
+    case ride[:driver_id]
+    when driver
+      totals[:tot_rides] += 1
+      totals[:tot_earning] += ride[:cost]
+    end
+  end
+end
+
+puts "The total number of rides given by each driver:"
+
+drivers.each do |driver, totals|
+print "#{driver} gave #{totals[:tot_rides]} making $#{totals[:tot_earning]}"
+puts " from those rides."
+end
