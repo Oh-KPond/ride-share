@@ -113,20 +113,16 @@ rides = [
 
 # Use an iteration block to print driver's total rides and money made
 
-
-# array of drivers
-# each driver hash of total rides and total earnings
-
 drivers = {}
-# drivers = driver1 => {tot_rides => 0, tot_earning => 0}, driver2 => {}
+# e.g. drivers = driver1 => {tot_rides => 0, tot_earning => 0}, driver2 => {}
 
 rides.each do |ride|
-
   # does the driver found in the rides already exist
   if !drivers.keys.include? ride[:driver_id]
     drivers.merge!(ride[:driver_id] => { :tot_rides => 0, :tot_earning => 0 })
   end
 
+  # iterates over new driver hash and counts total rides and total earnings for each
   drivers.each do |driver, totals|
     case ride[:driver_id]
     when driver
