@@ -120,16 +120,19 @@ rides.each do |ride|
   # does the driver found in the rides already exist
   if !drivers.keys.include? ride[:driver_id]
     drivers.merge!(ride[:driver_id] => { :tot_rides => 0, :tot_earning => 0 })
+  else
+    drivers[ride[:driver_id]][:tot_rides] += 1
+    drivers[ride[:driver_id]][:tot_earning] += ride[:cost]
   end
 
-  # iterates over new driver hash and counts total rides and total earnings for each
-  drivers.each do |driver, totals|
-    case ride[:driver_id]
-    when driver
-      totals[:tot_rides] += 1
-      totals[:tot_earning] += ride[:cost]
-    end
-  end
+  # # iterates over new driver hash and counts total rides and total earnings for each
+  # drivers.each do |driver, totals|
+  #   case ride[:driver_id]
+  #   when driver
+  #     totals[:tot_rides] += 1
+  #     totals[:tot_earning] += ride[:cost]
+  #   end
+  # end
 end
 
 puts "The total number of rides given by each driver:"
